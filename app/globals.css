@@ -9,9 +9,6 @@
 }
 
 @layer utilities {
-  .text-bigger-hello {
-    @apply text-3xl font-semibold;
-  }
 }
 
 @layer components {

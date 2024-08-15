@@ -2,9 +2,9 @@
 
 import FormButton from "@/components/form-btn";
 import FormInput from "@/components/form-input";
-import SocialLogin from "@/components/social-login";
 import { useFormState } from "react-dom";
 import { handleForm } from "./action";
+import WelcomeButton from "@/components/welcome-btn";
 
 export default function Login() {
   const [state, action] = useFormState(handleForm, null);
@@ -12,18 +12,25 @@ export default function Login() {
   return (
     <div className="flex flex-col gap-10 py-8 px-6">
       <div className="flex flex-col gap-2 *:font-medium">
-        <h1 className="text-2xl">안녕하세요!</h1>
-        <h2 className="text-xl">Log in with email and password.</h2>
+        <h1 className="text-5xl text-center">🔥</h1>
       </div>
       <form action={action} className="flex flex-col gap-3">
         <FormInput name="email" type="email" placeholder="Email" required />
+        <FormInput
+          name="username"
+          type="text"
+          placeholder="Username"
+          required
+        />
         <FormInput
           name="password"
           type="password"
           placeholder="Password"
           required
+          errors={state?.error?.fieldErrors.password}
         />
         <FormButton text="Log in" />
+        {state?.success && <WelcomeButton />}
       </form>
     </div>
   );
