@@ -2,23 +2,22 @@
 
 import { z } from "zod";
 
-const checkPassword = ({ password }: { password: string }) => {
-  return password === "12345";
-};
-
-const formSchema = z
-  .object({
-    username: z.string(),
-    email: z.string().email(),
-    password: z.string().min(3).max(10),
-  })
-  .refine(checkPassword, {
-    message: "wrong password",
-    path: ["password"],
-  });
+const formSchema = z.object({
+  email: z
+    .string()
+    .email()
+    .refine(
+      (email) => email.endsWith("@zod.com"),
+      "Only @zod.com emails are allowed"
+    ),
+  username: z.string().min(5, "Username should be at least 5 characters long."),
+  password: z
+    .string()
+    .min(10, "Password should be at least 10 characters long.")
+    .regex(/\d/, "Password should contain at least one number (0123456789)"),
+});
 
 export async function handleForm(prevState: any, formData: FormData) {
-  await new Promise((resolve) => setTimeout(resolve, 5000));
   const data = {
     username: formData.get("username"),
     email: formData.get("email"),

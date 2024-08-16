@@ -6,8 +6,13 @@ import { useFormState } from "react-dom";
 import { handleForm } from "./action";
 import WelcomeButton from "@/components/welcome-btn";
 
+const initialState = {
+  success: false,
+  erorr: undefined,
+};
+
 export default function Login() {
-  const [state, action] = useFormState(handleForm, null);
+  const [state, action] = useFormState(handleForm, initialState);
 
   return (
     <div className="flex flex-col gap-10 py-8 px-6">
@@ -15,12 +20,19 @@ export default function Login() {
         <h1 className="text-5xl text-center">🔥</h1>
       </div>
       <form action={action} className="flex flex-col gap-3">
-        <FormInput name="email" type="email" placeholder="Email" required />
+        <FormInput
+          name="email"
+          type="email"
+          placeholder="Email"
+          required
+          errors={state?.error?.fieldErrors.email}
+        />
         <FormInput
           name="username"
           type="text"
           placeholder="Username"
           required
+          errors={state?.error?.fieldErrors.username}
         />
         <FormInput
           name="password"
